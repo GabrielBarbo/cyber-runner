@@ -11,9 +11,9 @@ import { useStore } from '../../store';
 import { LANE_WIDTH, GameStatus, AvatarStyle } from '../../types';
 import { audio } from '../System/Audio';
 
-// Physics Constants
-const GRAVITY = 50;
-const JUMP_FORCE = 16; 
+// Physics Constants - Improved for fluidity
+const GRAVITY = 40;      // Reduced from 50 for smoother gravity
+const JUMP_FORCE = 15;   // Reduced from 16 for more controlled jumps 
 
 // Static Geometries
 const TORSO_GEO = new THREE.CylinderGeometry(0.25, 0.15, 0.6, 4);
@@ -180,28 +180,30 @@ export const Player: React.FC = () => {
         const deltaY = e.changedTouches[0].clientY - touchStartY.current;
         const maxLane = Math.floor(laneCount / 2);
 
-        // Responsive Swipe Detection (Reduced threshold for mobile agility)
-        const threshold = 30; 
+        // Improved touch sensitivity: much lower thresholds for mobile
+        const swipeThreshold = 20;    // Reduced from 30 for better responsiveness
+        const tapThreshold = 8;       // Reduced from 10 for easier tapping
+        
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-             if (Math.abs(deltaX) > threshold) {
+             if (Math.abs(deltaX) > swipeThreshold) {
                  if (deltaX > 0) setLane(l => Math.min(l + 1, maxLane));
                  else setLane(l => Math.max(l - 1, -maxLane));
              }
         } else {
-            if (deltaY < -threshold) {
+            if (deltaY < -swipeThreshold) {
                 triggerJump();
-            } else if (deltaY > threshold) {
+            } else if (deltaY > swipeThreshold) {
                 triggerDuck();
             }
         }
         
         // Shoot on Tap if has blaster
-        if (hasBlaster && Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+        if (hasBlaster && Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold) {
             triggerShoot();
         }
 
-        // Tap for Immortality (if tap on left-ish side maybe? No, let's keep it simple)
-        if (!hasBlaster && Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+        // Tap for Immortality
+        if (!hasBlaster && Math.abs(deltaX) < tapThreshold && Math.abs(deltaY) < tapThreshold) {
             activateImmortality();
         }
     };

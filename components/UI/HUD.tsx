@@ -542,72 +542,12 @@ export const HUD: React.FC = () => {
 
   return (
     <div className={containerClass}>
-        {/* Top Bar */}
-        <div className="flex justify-between items-start w-full">
-            <div className="flex flex-col">
-                <div className="text-3xl md:text-5xl font-bold text-cyan-400 drop-shadow-[0_0_10px_#00ffff] font-cyber">
-                    {score.toLocaleString()}
-                </div>
-                <div className="flex items-center text-purple-400 font-mono text-sm md:text-base font-bold bg-black/40 px-2 py-0.5 rounded-lg border border-purple-500/20 mt-1">
-                    <MapPin className="w-3 h-3 md:w-4 md:h-4 mr-1" />
-                    {Math.floor(distance)} AL
-                </div>
-            </div>
-            
-            <div className="flex space-x-1 md:space-x-2">
-                {[...Array(maxLives)].map((_, i) => (
-                    <Heart 
-                        key={i} 
-                        className={`w-6 h-6 md:w-8 md:h-8 ${i < lives ? 'text-pink-500 fill-pink-500' : 'text-gray-800 fill-gray-800'} drop-shadow-[0_0_5px_#ff0054]`} 
-                    />
-                ))}
-            </div>
-        </div>
-        
-        {/* Level Indicator */}
-        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 text-sm md:text-lg text-purple-300 font-bold tracking-wider font-mono bg-black/50 px-3 py-1 rounded-full border border-purple-500/30 backdrop-blur-sm z-50">
-            LEVEL {level}
-        </div>
-
-        {/* Active Skill Indicator */}
+        {/* Minimalist UI - Only show immortality indicator */}
         {isImmortalityActive && (
-             <div className="absolute top-24 left-1/2 transform -translate-x-1/2 text-yellow-400 font-bold text-xl md:text-2xl animate-pulse flex items-center drop-shadow-[0_0_10px_gold]">
-                 <Shield className="mr-2 fill-yellow-400" /> IMMORTAL
+             <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-yellow-400 font-bold text-xl md:text-2xl animate-pulse flex items-center drop-shadow-[0_0_10px_gold]">
+                 <Shield className="mr-2 fill-yellow-400" /> IMORTAL
              </div>
         )}
-
-        {/* Collection Status */}
-        <div className="absolute top-16 md:top-24 left-1/2 transform -translate-x-1/2 flex space-x-2 md:space-x-3">
-            {target.map((char, idx) => {
-                const isCollected = collectedLetters.includes(idx);
-                const colors = THEMES[theme];
-                const themeColorList = [colors.primary, colors.secondary, colors.accent];
-                const color = themeColorList[idx % themeColorList.length];
-
-                return (
-                    <div 
-                        key={idx}
-                        style={{
-                            borderColor: isCollected ? color : 'rgba(55, 65, 81, 1)',
-                            color: isCollected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(55, 65, 81, 1)',
-                            boxShadow: isCollected ? `0 0 20px ${color}` : 'none',
-                            backgroundColor: isCollected ? color : 'rgba(0, 0, 0, 0.9)'
-                        }}
-                        className={`w-8 h-10 md:w-10 md:h-12 flex items-center justify-center border-2 font-black text-lg md:text-xl font-cyber rounded-lg transform transition-all duration-300`}
-                    >
-                        {char}
-                    </div>
-                );
-            })}
-        </div>
-
-        {/* Bottom Overlay */}
-        <div className="w-full flex justify-end items-end">
-             <div className="flex items-center space-x-2 text-cyan-500 opacity-70">
-                 <Zap className="w-4 h-4 md:w-6 md:h-6 animate-pulse" />
-                 <span className="font-mono text-base md:text-xl uppercase">Velocidade {Math.round((speed / RUN_SPEED_BASE) * 100)}%</span>
-             </div>
-        </div>
     </div>
   );
 };
