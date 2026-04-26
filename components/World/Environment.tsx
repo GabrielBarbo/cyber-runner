@@ -113,16 +113,45 @@ const LaneGuides: React.FC = () => {
                 <meshBasicMaterial color={colors.background} transparent opacity={0.6} />
             </mesh>
 
-            {/* Lane Separators - Glowing Lines */}
+            {/* Lane Separators - Improved visibility with glow effect */}
             {separators.map((x, i) => (
-                <mesh key={`sep-${i}`} position={[x, 0, -20]} rotation={[-Math.PI / 2, 0, 0]}>
-                    <planeGeometry args={[0.05, 200]} /> 
-                    <meshBasicMaterial 
-                        color={colors.primary} 
-                        transparent 
-                        opacity={0.4} 
-                    />
-                </mesh>
+                <group key={`sep-${i}`}>
+                    {/* Main bright line */}
+                    <mesh position={[x, 0, -20]} rotation={[-Math.PI / 2, 0, 0]}>
+                        <planeGeometry args={[0.08, 200]} /> 
+                        <meshBasicMaterial 
+                            color={colors.primary} 
+                            transparent 
+                            opacity={0.8}  
+                        />
+                    </mesh>
+                    
+                    {/* Glow halo effect */}
+                    <mesh position={[x, 0, -20]} rotation={[-Math.PI / 2, 0, 0]}>
+                        <planeGeometry args={[0.3, 200]} /> 
+                        <meshBasicMaterial 
+                            color={colors.primary} 
+                            transparent 
+                            opacity={0.2}  
+                        />
+                    </mesh>
+                    
+                    {/* Dashed segment markers for better depth perception */}
+                    {Array.from({ length: 20 }).map((_, segIdx) => (
+                        <mesh 
+                            key={`dash-${segIdx}`}
+                            position={[x, 0.02, -20 - segIdx * 10]} 
+                            rotation={[-Math.PI / 2, 0, 0]}
+                        >
+                            <planeGeometry args={[0.06, 3]} /> 
+                            <meshBasicMaterial 
+                                color={colors.accent} 
+                                transparent 
+                                opacity={0.3}
+                            />
+                        </mesh>
+                    ))}
+                </group>
             ))}
         </group>
     );

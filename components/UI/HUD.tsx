@@ -9,6 +9,7 @@ import { Heart, Trophy, MapPin, Diamond, Rocket, ArrowUpCircle, Shield, Activity
 import { useStore } from '../../store';
 import { GameStatus, ShopItem, RUN_SPEED_BASE, GameDifficulty, GameTheme, THEMES, AvatarStyle } from '../../types';
 import { audio } from '../System/Audio';
+import { RankingDisplay } from './RankingDisplay';
 
 // Available Shop Items
 const SHOP_ITEMS: ShopItem[] = [
@@ -422,7 +423,7 @@ export const HUD: React.FC = () => {
               <div className="flex flex-col items-center justify-center min-h-full py-8 px-4">
                 <h1 className="text-4xl md:text-6xl font-black text-white mb-6 drop-shadow-[0_0_10px_rgba(255,0,0,0.8)] font-cyber text-center uppercase">FIM DE JOGO</h1>
                 
-                <div id="progress-card" className="grid grid-cols-1 gap-3 md:gap-4 text-center mb-8 w-full max-w-md bg-gray-900/40 p-4 rounded-3xl border border-white/5">
+                <div id="progress-card" className="grid grid-cols-1 gap-3 md:gap-4 text-center mb-4 w-full max-w-md bg-gray-900/40 p-4 rounded-3xl border border-white/5">
                     <div className="bg-gray-900/80 p-3 md:p-4 rounded-lg border border-gray-700 flex items-center justify-between">
                         <div className="flex items-center text-yellow-400 text-sm md:text-base"><Trophy className="mr-2 w-4 h-4 md:w-5 md:h-5"/> NÍVEL</div>
                         <div className="text-xl md:text-2xl font-bold font-mono">{level}</div>
@@ -440,6 +441,8 @@ export const HUD: React.FC = () => {
                         <div className="text-2xl md:text-3xl font-bold font-cyber text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">{score.toLocaleString()}</div>
                     </div>
                 </div>
+
+                <RankingDisplay currentScore={score} currentPlayerName="Player" />
 
                 <div className="flex flex-col w-full max-w-md gap-4">
                     <button 
