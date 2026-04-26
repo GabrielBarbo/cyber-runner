@@ -22,7 +22,7 @@ function MusicController() {
     useEffect(() => {
         if (status === GameStatus.PLAYING) {
             audio.startMusic();
-        } else if (status === GameStatus.OVER) {
+        } else if (status === GameStatus.GAME_OVER) {
             audio.stopMusic();
             audio.playGameOver();
         } else if (status === GameStatus.MENU) {
